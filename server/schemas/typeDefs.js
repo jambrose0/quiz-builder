@@ -5,25 +5,27 @@ const typeDefs = gql`
     _id: ID
     username: String
     email: String
-    friendCount: Int
-    thoughts: [Thought]
-    friends: [User]
+    quizCount: Int
+    quiz: [Quiz]
   }
 
-  type Thought {
-    _id: ID
-    thoughtText: String
+  type Quiz {
+    _id: ID!
+    quizTitle: String
     createdAt: String
     username: String
-    reactionCount: Int
-    reactions: [Reaction]
+    questions: [Question]
   }
 
-  type Reaction {
-    _id: ID
-    reactionBody: String
-    createdAt: String
-    username: String
+  type Question {
+    _id: ID!
+    questionText: String
+    answers: [Answer]
+  }
+  type Answer {
+    _id: ID!
+    answerText: String
+    answers: [Answer]
   }
 
   type Auth {
