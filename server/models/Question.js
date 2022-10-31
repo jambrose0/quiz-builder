@@ -1,7 +1,7 @@
 const { Schema } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
-const reactionSchema = new Schema(
+const questionSchema = new Schema(
   {
     reactionBody: {
       type: String,
@@ -25,4 +25,4 @@ const reactionSchema = new Schema(
   }
 );
 
-module.exports = reactionSchema;
+module.exports = questionSchema;
