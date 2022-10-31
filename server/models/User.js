@@ -1,8 +1,26 @@
-const { Schema, model } = require('mongoose');
+const dateFormat = require('../utils/dateFormat')
 const bcrypt = require('bcrypt');
+const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema(
   {
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: (timestamp) => dateFormat
+      (timestamp),
+    },
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
     username: {
       type: String,
       required: true,
@@ -20,22 +38,17 @@ const userSchema = new Schema(
       required: true,
       minlength: 5
     },
-    thoughts: [
+    quizzes: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Thought'
-      }
-    ],
-    friends: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Quiz'
       }
     ]
   },
   {
     toJSON: {
-      virtuals: true
+      virtuals: true,
+      getters: true,
     }
   }
 );
@@ -55,9 +68,7 @@ userSchema.methods.isCorrectPassword = async function(password) {
   return bcrypt.compare(password, this.password);
 };
 
-userSchema.virtual('friendCount').get(function() {
-  return this.friends.length;
-});
+
 
 const User = model('User', userSchema);
 
