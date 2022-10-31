@@ -1,23 +1,26 @@
 const { Schema, model } = require('mongoose');
 const questionSchema = require('./Question');
+const answerSchema = require('./Answer');
 const dateFormat = require('../utils/dateFormat');
 
 const quizSchema = new Schema(
   {
-    thoughtText: {
-      type: String,
-      required: 'You need to title the quiz!',
-      minlength: 1,
-      maxlength: 280
-    },
     createdAt: {
       type: Date,
       default: Date.now,
       get: timestamp => dateFormat(timestamp)
     },
-    username: {
+    quizTitle: {
       type: String,
-      required: true
+      required: 'You did not provide a title for your post!',
+      minlength: 1,
+      maxlength: 280
+    },
+    quizSummary: {
+      type: String,
+      required: 'You did not provide a description of your quiz!',
+      minlength: 1,
+      maxlength: 280
     },
     questions: [questionSchema]
   },
