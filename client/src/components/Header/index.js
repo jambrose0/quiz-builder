@@ -1,248 +1,233 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import * as React from 'react';
+import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { green, grey } from '@mui/material/colors';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Auth from '../../utils/auth';
-import Avatar from '@mui/material/Avatar';
-// import PersonIcon from '@mui/icons-material/Person';
-import Menu from '@mui/material/Menu';
+import InputBase from '@mui/material/InputBase';
+import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
-import Divider from '@mui/material/Divider';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MailIcon from '@mui/icons-material/Mail';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MoreIcon from '@mui/icons-material/MoreVert';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#5E6973'
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
     },
-    secondary: {
-      main: '#6ABEA7'
-    }
-  }
-})
+  },
+}));
 
-const Header = () => {
-  const logout = (event) => {
-    event.preventDefault();
-    Auth.logout();
-  };
-
+export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  const open = Boolean(anchorEl);
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleClick = (event) => {
+  const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
     setAnchorEl(null);
+    handleMobileMenuClose();
   };
 
-  const [anchorAvatarEl, setAnchorAvatarEl] = React.useState(null);
-
-  const avatarOpen = Boolean(anchorAvatarEl);
-
-  const handleAvatarClick = (event) => {
-    setAnchorAvatarEl(event.currentTarget);
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleAvatarClose = () => {
-    setAnchorAvatarEl(null);
-  };
-  return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1, bgcolor: grey[500] }}>
-        <AppBar position='static'>
-          <Toolbar>
-            <Typography
-              component={Link}
-              style={{ textDecoration: 'none' }}
-              to='/'
-              variant='h5'
-              sx={{
-                m: 2,
-                fontWeight: 'bold',
-                color: 'white',
-                cursor: 'pointer',
-              }}
-            >
-              Build-a-Quiz
-            </Typography>
-            <Typography
-              style={{ textDecoration: 'none' }}
-              sx={{ color: 'white', cursor: 'pointer' }}
-            >
-              <Grid
-                onClick={handleClick}
-                container
-                spacing='1'
-                alignItems='center'
-              >
-                Quizzes
-                {/* <KeyboardArrowDownIcon /> */}
-              </Grid>
-            </Typography>
-            <Menu
-              anchorEl={anchorEl}
-              id='account-menu'
-              open={open}
-              onClose={handleClose}
-              onClick={handleClose}
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  overflow: 'visible',
-                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                  mt: 1.5,
-                  '& .MuiAvatar-root': {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  '&:before': {
-                    content: '""',
-                    display: 'block',
-                    position: 'absolute',
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: 'background.paper',
-                    transform: 'translateY(-50%) rotate(45deg)',
-                    zIndex: 0,
-                  },
-                },
-              }}
-              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-            >
-              <MenuItem component={Link} to='/forum'>
-                Forum
-              </MenuItem>
-              <MenuItem component={Link} to='/people'>
-                People
-              </MenuItem>
-            
-              <Divider />
-              <MenuItem component={Link} to='/about'>
-                About
-              </MenuItem>
-            </Menu>
-            <Box
-              alignItems='center'
-              sx={{
-                flexGrow: 1,
-                display: 'flex',
-                flexDirection: 'row-reverse',
-              }}
-            >
-              {Auth.loggedIn() ? (
-                <>
-                  <Avatar
-                    onClick={handleAvatarClick}
-                    sx={{
-                      m: 1,
-                      bgcolor: 'white',
-                      color: '#6ABEA7',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {/* <PersonIcon /> */}
-                  </Avatar>
-                  <Menu
-                    anchorEl={anchorAvatarEl}
-                    id='account-menu'
-                    open={avatarOpen}
-                    onClose={handleAvatarClose}
-                    onClick={handleAvatarClose}
-                    PaperProps={{
-                      elevation: 0,
-                      sx: {
-                        overflow: 'visible',
-                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                        mt: 1.5,
-                        '& .MuiAvatar-root': {
-                          width: 32,
-                          height: 32,
-                          ml: -0.5,
-                          mr: 1,
-                        },
-                        '&:before': {
-                          content: '""',
-                          display: 'block',
-                          position: 'absolute',
-                          top: 0,
-                          right: 14,
-                          width: 10,
-                          height: 10,
-                          bgcolor: 'background.paper',
-                          transform: 'translateY(-50%) rotate(45deg)',
-                          zIndex: 0,
-                        },
-                      },
-                    }}
-                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                  >
-                    <MenuItem component={Link} to='/profile'>
-                      Profile
-                    </MenuItem>
-                    <MenuItem component={Link} to='/settings'>
-                      Settings
-                    </MenuItem>
-                    <MenuItem onClick={logout} component={Link} to='/'>
-                      logout
-                    </MenuItem>
-                  </Menu>
-                </>
-              ) : (
-                <>
-                  <Button
-                    component={Link}
-                    to='/login'
-                    sx={{
-                      color: 'green',
-                      bgcolor: 'white',
-                      m: 1,
-                      ':hover': {
-                        bgcolor: 'green',
-                        color: 'white',
-                      },
-                    }}
-                  >
-                    Login
-                  </Button>
-                  <Button
-                    component={Link}
-                    to='/signup'
-                    sx={{
-                      m: 1,
-                      color: 'green',
-                      bgcolor: 'white',
-                      ':hover': {
-                        bgcolor: 'green',
-                        color: 'white',
-                      },
-                    }}
-                  >
-                    Sign Up
-                  </Button>
-                </>
-              )}
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </Box>
-    </ThemeProvider>
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
   );
-};
 
-export default Header;
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="error">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={17} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar  position="static">
+        <Toolbar className="bg-secondary color-dark" >
+          {/* <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton> */}
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ display: { xs: 'none', sm: 'block' } }}
+          >
+            Quiz-Builder
+          </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="error">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </Box>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+    </Box>
+  );
+}
