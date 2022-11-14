@@ -1,19 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { green, grey } from '@mui/material/colors';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Auth from '../../utils/auth';
 import Avatar from '@mui/material/Avatar';
-// import PersonIcon from '@mui/icons-material/Person';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import PersonIcon from '@mui/icons-material/Person';
 import Divider from '@mui/material/Divider';
 
 const theme = createTheme({

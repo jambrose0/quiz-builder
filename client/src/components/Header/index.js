@@ -1,65 +1,90 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
+// MUI styles, icons, and materials
+// import { styled, alpha } from '@mui/material/styles';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
+import Button from '@mui/material/Button';
+// //MUI imports currently not being used
+// import InputBase from '@mui/material/InputBase';
+// import SearchIcon from '@mui/icons-material/Search';
+// import Avatar from '@mui/material/Avatar';
+// import PersonIcon from '@mui/icons-material/Person';
+// import Divider from '@mui/material/Divider';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
+import QuizIcon from '@mui/icons-material/Quiz';
+// import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+// necessary imported utils
+import Auth from '../../utils/auth';
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
+// hidden search function to be added @ future date
+
+// const Search = styled('div')(({ theme }) => ({
+//   position: 'relative',
+//   borderRadius: theme.shape.borderRadius,
+//   backgroundColor: alpha(theme.palette.common.white, 0.15),
+//   '&:hover': {
+//     backgroundColor: alpha(theme.palette.common.white, 0.25),
+//   },
+//   marginRight: theme.spacing(2),
+//   marginLeft: 0,
+//   width: '100%',
+//   [theme.breakpoints.up('sm')]: {
+//     marginLeft: theme.spacing(3),
+//     width: 'auto',
+//   },
+// }));
+
+// const SearchIconWrapper = styled('div')(({ theme }) => ({
+//   padding: theme.spacing(0, 2),
+//   height: '100%',
+//   position: 'absolute',
+//   pointerEvents: 'none',
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+// }));
+
+// const StyledInputBase = styled(InputBase)(({ theme }) => ({
+//   color: 'inherit',
+//   '& .MuiInputBase-input': {
+//     padding: theme.spacing(1, 1, 1, 0),
+//     // vertical padding + font size from searchIcon
+//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+//     transition: theme.transitions.create('width'),
+//     width: '100%',
+//     [theme.breakpoints.up('md')]: {
+//       width: '20ch',
+//     },
+//   },
+// }));
 
 export default function PrimarySearchAppBar() {
+  // login/logout function
+  // const logout = (event) => {
+  //   event.preventDefault();
+  //   Auth.logout();
+  // };
+
+
+  // sets mobile state
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+
+
+  // menu functions
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -121,11 +146,11 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
+          {/* <Badge badgeContent={4} color="error">
+            <QuizIcon />
+          </Badge> */}
         </IconButton>
-        <p>Messages</p>
+        <p>Quizzes</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -175,7 +200,8 @@ export default function PrimarySearchAppBar() {
           >
             Quiz-Builder
           </Typography>
-          <Search>
+          {/* future search feature to be added */}
+          {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -183,22 +209,82 @@ export default function PrimarySearchAppBar() {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
             />
-          </Search>
+          </Search> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
+          
+            {/* {Auth.loggedIn() ? (
+              <>
+          <IconButton size='large' color='inherit'>
+         <QuizIcon />
+         </IconButton>
+           <IconButton
               size="large"
-              aria-label="show 17 new notifications"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
+              <AccountCircle />
+            </IconButton>
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+              </>
+            ) : (
+<>
+<Button
+                    component={Link}
+                    to='/login'
+                    // sx={{
+                      //   color: 'green',
+                      //   bgcolor: 'white',
+                      //   m: 1,
+                      //   ':hover': {
+                        //     bgcolor: 'green',
+                        //     color: 'white',
+                        //   },
+                        // }}
+                        >
+                        Login
+                        </Button>
+                        <Button
+                        component={Link}
+                        to='/signup'
+                        // sx={{
+                          //   m: 1,
+                          //   color: 'green',
+                          //   bgcolor: 'white',
+                          //   ':hover': {
+                            //     bgcolor: 'green',
+                            //     color: 'white',
+                            //   },
+                            // }}
+                            >
+                            Sign Up
+                            </Button>
+                            </>
+                          )} */}
+
+                          </Box>
+
+
+
+{/* 
+            <IconButton size="large"
+              color="inherit">
+                <QuizIcon />
             </IconButton>
             <IconButton
               size="large"
@@ -223,7 +309,7 @@ export default function PrimarySearchAppBar() {
             >
               <MoreIcon />
             </IconButton>
-          </Box>
+          </Box> */}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
