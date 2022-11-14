@@ -213,69 +213,29 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           
-            {/* {Auth.loggedIn() ? (
+            {Auth.loggedIn() ? (
               <>
-          <IconButton size='large' color='inherit'>
-         <QuizIcon />
-         </IconButton>
-           <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
+              <IconButton size='large'
+              color= 'inherit'>
+                <QuizIcon />
+              </IconButton>
+              
+              <IconButton size='large'
+              edge='end'
+              color= 'inherit'>
+              
+                <AccountCircle />
+              </IconButton>
+              
+          
+          
               </>
             ) : (
-<>
-<Button
-                    component={Link}
-                    to='/login'
-                    // sx={{
-                      //   color: 'green',
-                      //   bgcolor: 'white',
-                      //   m: 1,
-                      //   ':hover': {
-                        //     bgcolor: 'green',
-                        //     color: 'white',
-                        //   },
-                        // }}
-                        >
-                        Login
-                        </Button>
-                        <Button
-                        component={Link}
-                        to='/signup'
-                        // sx={{
-                          //   m: 1,
-                          //   color: 'green',
-                          //   bgcolor: 'white',
-                          //   ':hover': {
-                            //     bgcolor: 'green',
-                            //     color: 'white',
-                            //   },
-                            // }}
-                            >
-                            Sign Up
-                            </Button>
-                            </>
-                          )} */}
+                <>
+      <Link to="/login">Login</Link>
+      <Link to="/signup">Signup</Link>
+    </>
+                          )}
 
                           </Box>
 
