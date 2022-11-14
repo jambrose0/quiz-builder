@@ -1,5 +1,6 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Thought } = require("../models");
+const Quiz = require("../models/Quiz");
 const { signToken } = require("../utils/auth");
 
 const resolvers = {
@@ -8,8 +9,8 @@ const resolvers = {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select("-__v -password")
-          .populate("thoughts")
-          .populate("friends");
+          .populate("quizzes")
+          // .populate("friends");
 
         return userData;
       }
@@ -19,16 +20,16 @@ const resolvers = {
     users: async () => {
       return User.find()
         .select("-__v -password")
-        .populate("thoughts")
+        .populate("quizzes")
         .populate("friends");
     },
     user: async (parent, { username }) => {
       return User.findOne({ username })
         .select("-__v -password")
         .populate("friends")
-        .populate("thoughts");
+        .populate("quizzes");
     },
-    thoughts: async (parent, { username }) => {
+    quizzes: async (parent, { username }) => {
       const params = username ? { username } : {};
       return Thought.find(params).sort({ createdAt: -1 });
     },
@@ -69,7 +70,7 @@ const resolvers = {
 
         await User.findByIdAndUpdate(
           { _id: context.user._id },
-          { $push: { thoughts: thought._id } },
+          { $push: { quizzes: quiz._id } },
           { new: true }
         );
 
@@ -78,35 +79,35 @@ const resolvers = {
 
       throw new AuthenticationError("You need to be logged in!");
     },
-    addReaction: async (parent, { thoughtId, reactionBody }, context) => {
+    addQuiz: async (parent, { quizId, answers }, context) => {
       if (context.user) {
-        const updatedThought = await Thought.findOneAndUpdate(
-          { _id: thoughtId },
+        const updatedQuiz = await Quiz.findOneAndUpdate(
+          { _id: quizId },
           {
             $push: {
-              reactions: { reactionBody, username: context.user.username },
+              answers: { quizzes, username: context.user.username },
             },
           },
           { new: true, runValidators: true }
         );
 
-        return updatedThought;
+        return updatedQuiz;
       }
 
       throw new AuthenticationError("You need to be logged in!");
-    },
-    addFriend: async (parent, { friendId }, context) => {
-      if (context.user) {
-        const updatedUser = await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { friends: friendId } },
-          { new: true }
-        ).populate("friends");
+    }
+    // addFriend: async (parent, { friendId }, context) => {
+    //   if (context.user) {
+    //     const updatedUser = await User.findOneAndUpdate(
+    //       { _id: context.user._id },
+    //       { $addToSet: { friends: friendId } },
+    //       { new: true }
+    //     ).populate("friends");
 
-        return updatedUser;
-      }
+    //     return updatedUser;
+    //   }
 
-      throw new AuthenticationError("You need to be logged in!");
+      // throw new AuthenticationError("You need to be logged in!");
     },
   },
 };
