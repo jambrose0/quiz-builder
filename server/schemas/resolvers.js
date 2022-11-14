@@ -21,20 +21,20 @@ const resolvers = {
       return User.find()
         .select("-__v -password")
         .populate("quizzes")
-        .populate("friends");
+        // .populate("friends");
     },
     user: async (parent, { username }) => {
       return User.findOne({ username })
         .select("-__v -password")
-        .populate("friends")
+        // .populate("friends")
         .populate("quizzes");
     },
     quizzes: async (parent, { username }) => {
       const params = username ? { username } : {};
-      return Thought.find(params).sort({ createdAt: -1 });
+      return Quiz.find(params).sort({ createdAt: -1 });
     },
-    thought: async (parent, { _id }) => {
-      return Thought.findOne({ _id });
+    quiz: async (parent, { _id }) => {
+      return Quiz.findOne({ _id });
     },
   },
 
@@ -96,19 +96,7 @@ const resolvers = {
 
       throw new AuthenticationError("You need to be logged in!");
     }
-    // addFriend: async (parent, { friendId }, context) => {
-    //   if (context.user) {
-    //     const updatedUser = await User.findOneAndUpdate(
-    //       { _id: context.user._id },
-    //       { $addToSet: { friends: friendId } },
-    //       { new: true }
-    //     ).populate("friends");
-
-    //     return updatedUser;
-    //   }
-
-      // throw new AuthenticationError("You need to be logged in!");
-    },
+  
   },
 };
 
